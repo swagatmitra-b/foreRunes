@@ -1,3 +1,7 @@
+<script>
+  import "./style.css"
+</script>
+
 <div class="app">
   <a href="/markdown"><button>Markdown Editor</button></a>
   <a href="/tierlist"><button>Tierlist Maker</button></a>

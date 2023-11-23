@@ -6,24 +6,23 @@
       id: 1,
       name: "Zod",
       items: [
-        { id: "0-1", name: "item1" },
-        { id: "0-2", name: "item2" },
+        { id: "0-1", name: "Chelsea" },
       ],
     },
     {
       id: 2,
       name: "Good",
-      items: [{ id: "1-1", name: "item1" }],
+      items: [{ id: "1-1", name: "Tottenham" }],
     },
     {
       id: 3,
       name: "Mediocre",
-      items: [{ id: "2-1", name: "item1" }],
+      items: [{ id: "2-1", name: "Arsenal" }],
     },
     {
       id: 4,
       name: "Terrible",
-      items: [{ id: "3-1", name: "item1" }],
+      items: [{ id: "3-1", name: "Liverpool" }],
     },
   ];
 

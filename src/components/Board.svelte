@@ -1,13 +1,12 @@
 <script>
-  export let columnItems;
   import { flip } from "svelte/animate";
+  import { initBoard } from "$lib/store";
+  export let columnItems;
 
   const flipDuration = 300;
 
   const handleInput = (e, cid, itemId) => {
     if (e.key == "Delete") {
-      console.log("rpe");
-      e.preventDefault();
       deleteItem(cid, itemId);
       return;
     }
@@ -68,11 +67,11 @@
         <input
           type="text"
           value={column.name}
+          style="background-color: {column.colour};"
           on:keydown={(e) => {
             if (e.key == "Delete") {
-              columnItems = columnItems.filter(
-                (col) => col.name != column.name
-              );
+              columnItems = columnItems.filter((col) => col.id != column.id);
+              initBoard.set(columnItems);
             }
           }}
         />
@@ -145,6 +144,7 @@
     border-radius: 7px;
     color: black;
     overflow-x: scroll;
+    font-size: 1rem;
   }
 
   * {

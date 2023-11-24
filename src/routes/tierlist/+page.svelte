@@ -1,41 +1,52 @@
 <script>
   import "../style.css";
   import Board from "../../components/Board.svelte";
-  let board = [
-    {
-      id: 1,
-      name: "Zod",
-      items: [
-        { id: "0-1", name: "Chelsea" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Good",
-      items: [{ id: "1-1", name: "Tottenham" }],
-    },
-    {
-      id: 3,
-      name: "Mediocre",
-      items: [{ id: "2-1", name: "Arsenal" }],
-    },
-    {
-      id: 4,
-      name: "Terrible",
-      items: [{ id: "3-1", name: "Liverpool" }],
-    },
+  import { initBoard } from "$lib/store";
+  import { onDestroy } from "svelte";
+
+  const colours = [
+    "rgb(139, 23, 212)",
+    "rgb(214, 217, 46)",
+    "rgb(222, 122, 9)",
+    "rgb(28, 164, 28)",
+    "rgb(57, 137, 223)",
+    "rgb(194, 48, 199)",
   ];
 
+  let board = [];
+
+  const unsub = initBoard.subscribe((init) => (board = init));
+
+  onDestroy(() => unsub());
+
   const addTier = () => {
-    board = [...board, { id: board.length + 1, name: "", items: [] }];
+    const adjacentColour = board[board.length - 1].colour;
+    const newColour = colours.filter((colour) => colour != adjacentColour)[
+      Math.floor(Math.random() * 5)
+    ];
+    board = [
+      ...board,
+      {
+        id: board.length,
+        name: "New Tier",
+        colour: newColour,
+        items: [
+          {
+            id: `${board.length}-1`,
+            name: "",
+          },
+        ],
+      },
+    ];
   };
+
   const addItem = () => {
     let targetTier = board.find((tier) => tier.items.length == 0);
     if (targetTier) {
       targetTier.items = [
         ...targetTier.items,
         {
-          id: `${board.indexOf(targetTier)} - ${targetTier.items.length + 1}`,
+          id: `${board.indexOf(targetTier)}-${targetTier.items.length + 1}`,
           name: "",
         },
       ];
@@ -44,7 +55,7 @@
       topList.items = [
         ...topList.items,
         {
-          id: `0 - ${topList.items.length + 1}`,
+          id: `0-${topList.items.length + 1}`,
           name: "",
         },
       ];

@@ -106,6 +106,7 @@
     flex-direction: column;
     overflow: auto;
     padding: 0rem 2.5rem;
+    margin-bottom: 3rem;
   }
   .column {
     display: flex;

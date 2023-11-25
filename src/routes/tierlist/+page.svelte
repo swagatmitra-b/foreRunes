@@ -3,6 +3,7 @@
   import Board from "../../components/Board.svelte";
   import { initBoard } from "$lib/store";
   import { onDestroy } from "svelte";
+  import 'crypto';
 
   const colours = [
     "rgb(139, 23, 212)",
@@ -24,6 +25,7 @@
     const newColour = colours.filter((colour) => colour != adjacentColour)[
       Math.floor(Math.random() * 5)
     ];
+    const uid = crypto.randomUUID();
     board = [
       ...board,
       {
@@ -32,7 +34,7 @@
         colour: newColour,
         items: [
           {
-            id: `${board.length}-1`,
+            id: uid,
             name: "",
           },
         ],
@@ -42,20 +44,23 @@
 
   const addItem = () => {
     let targetTier = board.find((tier) => tier.items.length == 0);
+    const uid = crypto.randomUUID();
     if (targetTier) {
       targetTier.items = [
         ...targetTier.items,
         {
-          id: `${board.indexOf(targetTier)}-${targetTier.items.length + 1}`,
+          // id: `${board.indexOf(targetTier)}-${targetTier.items.length + 1}`,
+          id: uid,
           name: "",
         },
       ];
     } else {
       let topList = board[0];
       topList.items = [
-        ...topList.items,
+      ...topList.items,
         {
-          id: `0-${topList.items.length + 1}`,
+          // id: `0-${topList.items.length + 1}`,
+          id: uid,
           name: "",
         },
       ];

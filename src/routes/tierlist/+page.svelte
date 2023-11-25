@@ -1,9 +1,9 @@
 <script>
   import "../style.css";
   import Board from "../../components/Board.svelte";
-  import { initBoard } from "$lib/store";
+  import { initBoard, listTitle } from "$lib/store";
   import { onDestroy } from "svelte";
-  import 'crypto';
+  import "crypto";
 
   const colours = [
     "rgb(139, 23, 212)",
@@ -16,9 +16,10 @@
 
   let board = [];
 
-  const unsub = initBoard.subscribe((init) => (board = init));
+  let title = "";
 
-  onDestroy(() => unsub());
+  const unsub1 = listTitle.subscribe((name) => (title = name));
+  const unsub2 = initBoard.subscribe((init) => (board = init));
 
   const addTier = () => {
     const adjacentColour = board[board.length - 1].colour;
@@ -49,7 +50,6 @@
       targetTier.items = [
         ...targetTier.items,
         {
-          // id: `${board.indexOf(targetTier)}-${targetTier.items.length + 1}`,
           id: uid,
           name: "",
         },
@@ -57,9 +57,8 @@
     } else {
       let topList = board[0];
       topList.items = [
-      ...topList.items,
+        ...topList.items,
         {
-          // id: `0-${topList.items.length + 1}`,
           id: uid,
           name: "",
         },
@@ -67,6 +66,10 @@
     }
     board = board;
   };
+
+  onDestroy(() => {
+    unsub1(), unsub2();
+  });
 </script>
 
 <main>
@@ -76,6 +79,12 @@
     <button on:click={addTier}>Add Tier</button>
     <button on:click={addItem}>Add Item</button>
   </div>
+  <input
+    type="text"
+    placeholder="Enter List Name"
+    bind:value={title}
+    on:input={(e) => listTitle.update((name) => (name = e.target.value))}
+  />
 </main>
 <Board columnItems={board}></Board>
 
@@ -109,5 +118,15 @@
     background-color: transparent;
     color: white;
     border: 1px solid white;
+  }
+
+  input {
+    background-color: rgb(32, 32, 57);
+    color: white;
+    border: none;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    margin: 2rem 0rem;
   }
 </style>

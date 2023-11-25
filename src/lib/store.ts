@@ -26,3 +26,5 @@ export const initBoard = writable([
     items: [{ id: "3-1", name: "Liverpool" }],
   },
 ]);
+
+export const listTitle = writable("Premiere League Teams");
